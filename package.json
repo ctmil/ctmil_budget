@@ -1,0 +1,22 @@
+{
+  "name": "ctmil-budget",
+  "version": "1.0.0",
+  "description": "Presupuestador de Moldeo Interactive",
+  "main": "main.js",
+  "scripts": {
+    "start": "cd ng && ng build --prod --bh . && cd ../ && electron ."
+  },
+  "repository": "",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "~1.8.2"
+  }
+}

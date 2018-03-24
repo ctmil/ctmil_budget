@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="jumbotron">
+    <a href="#" class="pull-left" style="margin:20px;"><img src="./assets/moldeo_interactive.png"></a>
+      <h1>{{title}}</h1>
+      <p>Budget / Presupuestador</p>
+  </div>
+
+  <form #formulario class="" method="post">
+    <h2>Proyecto:</h2>
+    <input class="form-control" type="text" name="proyecto" placeholder="Título del Proyecto" required>
+    <h3>Cliente:</h3>
+    <input class="form-control" type="text" name="cliente" placeholder="Nombre del Cliente" required>
+    <h4>Propuesta:</h4>
+    <textarea class="form-control" name="propuesta" rows="4" cols="80">Proyecto activo durante...</textarea>
+    <h4>Relevamiento:</h4>
+    <textarea class="form-control" name="propuesta" rows="4" cols="80">Después de las reuniones realizadas, el proyecto necesita...</textarea>
+    <h4>Requerimientos:</h4>
+    <textarea class="form-control" name="requerimientos" rows="4" cols="80">Etapa 1: ...</textarea>
+  </form>
+
+  <hr>
+
+  <h4>Presupuesto:</h4>
+  <div #presupuesto>
+    <div style="margin:5px 0;">
+      <input style="border:1px solid #ccc;width:33%;padding:5px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);" type="text" name="servicio" placeholder="Servicio"><input style="border:1px solid #ccc;width:34%;padding:5px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);" type="text" name="servi_des" placeholder="Descripción"><input style="border:1px solid #ccc;width:33%;padding:5px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);" type="text" name="horas" placeholder="Horas">
+    </div>
+  </div>
+  <button class="btn btn-default" type="button" name="addFields" (click)="createNewField()">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Campo
+  </button>
+
+  <hr>
+
+  <h4>Cronograma:</h4>
+  <input #ifCrono class="check20" type="checkbox" name="no-crono" value="no-aplica" checked (change)="0"><label for="no-aplica">No Aplica</label>
+  <div #tiempo *ngIf="!ifCrono.checked">
+    <input #m class="check20" type="radio" name="tiempo" value="meses" checked (change)="0"> Meses
+    <input #q class="check20" type="radio" name="tiempo" value="quincenas" (change)="0"> Quicenas
+    <input #s class="check20" type="radio" name="tiempo" value="semanas" (change)="0"> Semanas
+    <br>
+    Unidades: <input class="form-control form-qty" type="text" name="tiempo_qty" value="1">
+    <div class="u-tiempo" *ngIf="m.checked">
+      | Meses
+    </div>
+    <div class="u-tiempo" *ngIf="q.checked">
+      | Quincenas
+    </div>
+    <div class="u-tiempo" *ngIf="s.checked">
+      | Semanas
+    </div>
+    <div class="stages" #etapas>
+    </div>
+    <button class="btn btn-default" type="button" name="addStage" (click)="addCStage()">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Etapa
+    </button>
+    <button class="btn btn-default" type="button" name="addStage" (click)="resetCStage()">
+      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Reset
+    </button>
+  </div>
+
+  <h4>Importe:</h4>
+  <div #importe>
+    <input class="form-control form-importe" type="text" name="importe" value="0">
+    <input class="check20" style="margin-top:20px;" type="checkbox" name="iva" value="iva" checked><label for="iva">IVA 21%</label>
+  </div>
+  <br/>
+
+  <button class="btn btn-default btn-lg" type="button" name="generar" (click)="generateBudget()">
+    <span class="glyphicon glyphicon-file" aria-hidden="true"></span> Generar Presupuesto
+  </button>
+
+  <div class="foottron">
+  </div>
+</div>

@@ -1,0 +1,39 @@
+h1{
+  font-size: 26px;
+}
+h2, h3, h4, h5, h6{
+  margin-top:30px;
+}
+input{
+  border-radius:0;
+}
+textarea{
+  border-radius:0;
+}
+label{
+  padding:5px;
+}
+.foottron{
+  height:40px;
+  margin:10px 0;
+  background:#ddd;
+}
+.form-importe{
+  width:200px;
+}
+.form-qty{
+  width:60px;
+}
+.u-tiempo{
+  padding:5px 5px 5px 50px;
+  margin:10px 0 0 0;
+  border:1px solid #ccc;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+.stages{
+  margin-bottom:15px;
+}
+.check20{
+  width:20px;
+  height:20px;
+}
