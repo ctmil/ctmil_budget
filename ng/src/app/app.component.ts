@@ -16,6 +16,7 @@ export class AppComponent {
   @ViewChild("tiempo") tiempo: ElementRef;
   @ViewChild("etapas") etapas: ElementRef;
   @ViewChild("ifCrono") ifCrono: ElementRef;
+  @ViewChild("importe") importe: ElementRef;
 
   public imgData:string = Globals.IMGDATA;  //Logo de Moldeo Interactive
 
@@ -52,6 +53,17 @@ export class AppComponent {
     let propuesta:string = this.form.nativeElement[2].value.replace(/\n/g, " ");
     let relevamiento:string = this.form.nativeElement[3].value.replace(/\n/g, " ");
     let requerimientos:string = this.form.nativeElement[4].value.replace(/\n/g, " ");
+    let importe:number = Number(this.importe.nativeElement.children[0].value);
+    let importeConIVA:number = importe+(importe*0.21);
+    let moneda:string;
+    if(this.importe.nativeElement.children[1].checked){
+      moneda = '$';
+    }else if(this.importe.nativeElement.children[3].checked){
+      moneda = 'US$';
+    }else{
+      moneda = '$';
+    }
+    let horas:number = 0;
 
     let name:string = proyecto.toLowerCase().replace(/ /g, "-") + "_" + cliente.toLowerCase().replace(/ /g, "-");
 
@@ -95,6 +107,7 @@ export class AppComponent {
 
     /*BODY 02 - PROPUESTA, RELEVAMIENTO, REQUERIMIENTOS*/
     doc.setPage(2);
+    doc.setFont("helvetica");
     doc.setTextColor(20, 20, 20);
     doc.fromHTML(
 
@@ -109,6 +122,7 @@ export class AppComponent {
 
     /*BODY 03 - PRESUPUESTO*/
     doc.setPage(3);
+    doc.setFont("helvetica");
     doc.setTextColor(20, 20, 20);
     doc.fromHTML(
 
@@ -123,13 +137,14 @@ export class AppComponent {
         a[0] = this.presu.nativeElement.children[i].children[0].value;
         a[1] = this.presu.nativeElement.children[i].children[1].value;
         a[2] = this.presu.nativeElement.children[i].children[2].value;
+        horas += Number(this.presu.nativeElement.children[i].children[2].value);
         pRows[i] = a;
     }
     doc.autoTable(pColumns, pRows, { startY: 30, styles: {fontSize:9} });
 
     /*BODY 04 - CRONOGRAMA*/
     doc.setPage(4);
-    doc.setTextColor(20, 20, 20);
+    doc.setFont("helvetica");
     if(this.ifCrono.nativeElement.checked === false){
       doc.fromHTML(
       '<h3 style="font-family:helvetica;font-size:14px;">Cronograma de trabajo</h3>\ ',
@@ -168,13 +183,21 @@ export class AppComponent {
       }
       doc.autoTable(cColumns, cRows, { startY: 30, styles: {fontSize:9} });
       doc.fromHTML(
-      '<p style="font-family:helvetica;font-size:11px;">Este presupuesto tiene validez por 15 días para ser aprobado.</p>',
+      '<p style="font-family:helvetica;font-size:10px;">Horas de Trabajo Presupuestadas: '+horas+' Horas</p>\
+      <div style="font-family:helvetica;font-size:11px;">Total sin IVA: '+moneda+' '+importe+'</div>\
+      <div style="font-family:helvetica;font-size:10px;">IVA: 21%<div>\
+      <p style="font-family:helvetica;font-size:16px;font-weight:bold;">Total: '+moneda+' '+importeConIVA+'</p>\
+       <p style="font-family:helvetica;font-size:11px;">Este presupuesto tiene validez por 15 días para ser aprobado.</p>',
       10, 45+8*cRows.length, {'width': 180});
     }else{
       doc.fromHTML(
       '<h3 style="font-family:helvetica;font-size:14px;">Cronograma de trabajo</h3>\
-       <p style="font-family:helvetica;font-size:11px;">No Aplica.</p>\
-       <p style="font-family:helvetica;font-size:11px;">Este presupuesto tiene validez por 15 días para ser aprobado.</p>',
+       <p style="font-family:helvetica;font-size:11px;">No Aplica.</p><br/>\
+       <p style="font-family:helvetica;font-size:10px;">Horas de Trabajo Presupuestadas: '+horas+' Horas</p>\
+       <div style="font-family:helvetica;font-size:11px;">Total sin IVA: '+moneda+' '+importe+'</div>\
+       <div style="font-family:helvetica;font-size:10px;">IVA: 21%</div>\
+       <p style="font-family:helvetica;font-size:16px;font-weight:bold;">Total: '+moneda+' '+importeConIVA+'</p>\
+       <br/><p style="font-family:helvetica;font-size:11px;">Este presupuesto tiene validez por 15 días para ser aprobado.</p>',
       10, 15, {'width': 180});
     }
 

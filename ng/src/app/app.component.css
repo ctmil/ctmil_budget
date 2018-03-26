@@ -37,3 +37,7 @@ label{
   width:20px;
   height:20px;
 }
+.center{
+  display:block;
+  margin:0 auto;
+}

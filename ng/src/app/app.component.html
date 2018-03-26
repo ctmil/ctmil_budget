@@ -62,11 +62,13 @@
   <h4>Importe:</h4>
   <div #importe>
     <input class="form-control form-importe" type="text" name="importe" value="0">
+    <input class="check20" style="margin-top:20px;" type="radio" name="valorP"><label>ARS</label>
+    <input class="check20" style="margin-top:20px;" type="radio" name="valorP"><label>USD</label>
     <input class="check20" style="margin-top:20px;" type="checkbox" name="iva" value="iva" checked><label for="iva">IVA 21%</label>
   </div>
-  <br/>
+  <hr>
 
-  <button class="btn btn-default btn-lg" type="button" name="generar" (click)="generateBudget()">
+  <button class="btn btn-default btn-lg center" type="button" name="generar" (click)="generateBudget()">
     <span class="glyphicon glyphicon-file" aria-hidden="true"></span> Generar Presupuesto
   </button>
 
