@@ -53,8 +53,9 @@ export class AppComponent {
     let propuesta:string = this.form.nativeElement[2].value.replace(/\n/g, " ");
     let relevamiento:string = this.form.nativeElement[3].value.replace(/\n/g, " ");
     let requerimientos:string = this.form.nativeElement[4].value.replace(/\n/g, " ");
-    let importe:number = Number(this.importe.nativeElement.children[0].value);
-    let importeConIVA:number = importe+(importe*0.21);
+    let importe:number = +(Number(this.importe.nativeElement.children[0].value).toFixed(2));
+    let iva:number = +((importe*0.21).toFixed(2));
+    let importeConIVA:number = +((importe+iva).toFixed(2));
     let moneda:string;
     if(this.importe.nativeElement.children[1].checked){
       moneda = '$';
@@ -145,6 +146,13 @@ export class AppComponent {
     /*BODY 04 - CRONOGRAMA*/
     doc.setPage(4);
     doc.setFont("helvetica");
+    let poscronograma:string = '\
+    <p style="font-family:helvetica;font-size:10px;">Horas de Trabajo Presupuestadas: '+horas+' Horas</p>\
+    <div style="font-family:helvetica;font-size:11px;">Total sin IVA: '+moneda+' '+importe+'</div>\
+    <div style="font-family:helvetica;font-size:11px;">IVA 21%: '+moneda+' '+iva+'<div>\
+    <p style="font-family:helvetica;font-size:16px;font-weight:bold;">Total: '+moneda+' '+importeConIVA+'</p>\
+    <p style="font-family:helvetica;font-size:11px;">Este presupuesto tiene validez por 15 días para ser aprobado.</p>';
+
     if(this.ifCrono.nativeElement.checked === false){
       doc.fromHTML(
       '<h3 style="font-family:helvetica;font-size:14px;">Cronograma de trabajo</h3>\ ',
@@ -181,24 +189,22 @@ export class AppComponent {
         }
         cRows[i] = a;
       }
+      let hTable = (7*cRows.length)+45;
       doc.autoTable(cColumns, cRows, { startY: 30, styles: {fontSize:9} });
-      doc.fromHTML(
-      '<p style="font-family:helvetica;font-size:10px;">Horas de Trabajo Presupuestadas: '+horas+' Horas</p>\
-      <div style="font-family:helvetica;font-size:11px;">Total sin IVA: '+moneda+' '+importe+'</div>\
-      <div style="font-family:helvetica;font-size:10px;">IVA: 21%<div>\
-      <p style="font-family:helvetica;font-size:16px;font-weight:bold;">Total: '+moneda+' '+importeConIVA+'</p>\
-       <p style="font-family:helvetica;font-size:11px;">Este presupuesto tiene validez por 15 días para ser aprobado.</p>',
-      10, 45+8*cRows.length, {'width': 180});
+      doc.fromHTML(poscronograma, 10, hTable, {'width': 180});
+      doc.setDrawColor(130, 130, 130);
+      doc.line(10, hTable+6, 70, hTable+6);
+      doc.setDrawColor(10, 10, 10);
+      doc.line(10, hTable+18, 70, hTable+18);
     }else{
       doc.fromHTML(
       '<h3 style="font-family:helvetica;font-size:14px;">Cronograma de trabajo</h3>\
-       <p style="font-family:helvetica;font-size:11px;">No Aplica.</p><br/>\
-       <p style="font-family:helvetica;font-size:10px;">Horas de Trabajo Presupuestadas: '+horas+' Horas</p>\
-       <div style="font-family:helvetica;font-size:11px;">Total sin IVA: '+moneda+' '+importe+'</div>\
-       <div style="font-family:helvetica;font-size:10px;">IVA: 21%</div>\
-       <p style="font-family:helvetica;font-size:16px;font-weight:bold;">Total: '+moneda+' '+importeConIVA+'</p>\
-       <br/><p style="font-family:helvetica;font-size:11px;">Este presupuesto tiene validez por 15 días para ser aprobado.</p>',
-      10, 15, {'width': 180});
+       <p style="font-family:helvetica;font-size:11px;">No Aplica.</p><br/>'+poscronograma,
+       10, 15, {'width': 180});
+      doc.setDrawColor(130, 130, 130);
+      doc.line(10, 39, 70, 39);
+      doc.setDrawColor(10, 10, 10);
+      doc.line(10, 51, 70, 51);
     }
 
     /*FOOTER*/
