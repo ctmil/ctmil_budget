@@ -126,9 +126,7 @@ export class AppComponent {
     doc.setFont("helvetica");
     doc.setTextColor(20, 20, 20);
     doc.fromHTML(
-
     '<h3 style="font-family:helvetica;font-size:14px;">Presupuesto desglosado</h3>',
-
     10, 15, {'width': 180});
 
     let pColumns = ["Servicio", "Descripcion", "Horas"];
@@ -189,19 +187,19 @@ export class AppComponent {
         }
         cRows[i] = a;
       }
-      let hTable = (7*cRows.length)+45;
+
       doc.autoTable(cColumns, cRows, { startY: 30, styles: {fontSize:9} });
-      doc.fromHTML(poscronograma, 10, hTable, {'width': 180});
-      doc.setDrawColor(130, 130, 130);
-      doc.line(10, hTable+6, 70, hTable+6);
+      doc.fromHTML(poscronograma, 10, doc.autoTableEndPosY()+10, {'width': 180});
+      doc.setDrawColor(180, 180, 180);
+      doc.line(10, doc.autoTableEndPosY()+18, 70, doc.autoTableEndPosY()+18);
       doc.setDrawColor(10, 10, 10);
-      doc.line(10, hTable+18, 70, hTable+18);
-    }else{
+      doc.line(10, doc.autoTableEndPosY()+30, 70, doc.autoTableEndPosY()+30);
+    } else {
       doc.fromHTML(
       '<h3 style="font-family:helvetica;font-size:14px;">Cronograma de trabajo</h3>\
        <p style="font-family:helvetica;font-size:11px;">No Aplica.</p><br/>'+poscronograma,
        10, 15, {'width': 180});
-      doc.setDrawColor(130, 130, 130);
+      doc.setDrawColor(180, 180, 180);
       doc.line(10, 39, 70, 39);
       doc.setDrawColor(10, 10, 10);
       doc.line(10, 51, 70, 51);
