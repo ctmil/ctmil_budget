@@ -22,9 +22,6 @@
 
   <h4>Presupuesto:</h4>
   <div #presupuesto>
-    <div style="margin:5px 0;">
-      <input style="border:1px solid #ccc;width:33%;padding:5px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);" type="text" name="servicio" placeholder="Servicio"><input style="border:1px solid #ccc;width:34%;padding:5px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);" type="text" name="servi_des" placeholder="Descripción"><input style="border:1px solid #ccc;width:33%;padding:5px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);" type="text" name="horas" placeholder="Horas">
-    </div>
   </div>
   <button class="btn btn-default" type="button" name="addFields" (click)="createNewField()">
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar Campo
@@ -62,7 +59,7 @@
   <h4>Importe:</h4>
   <div #importe>
     <input class="form-control form-importe" type="text" name="importe" value="0">
-    <input class="check20" style="margin-top:20px;" type="radio" name="valorP"><label>ARS</label>
+    <input class="check20" style="margin-top:20px;" type="radio" name="valorP" checked="true"><label>ARS</label>
     <input class="check20" style="margin-top:20px;" type="radio" name="valorP"><label>USD</label>
     <input class="check20" style="margin-top:20px;" type="checkbox" name="iva" value="iva" checked><label for="iva">IVA 21%</label>
   </div>

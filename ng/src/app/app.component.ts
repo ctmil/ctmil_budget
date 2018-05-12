@@ -27,10 +27,26 @@ export class AppComponent {
   constructor(){}
 
   ngOnInit(){
+    this.createNewField();
   }
 
   public createNewField(): void{
-    this.presu.nativeElement.insertAdjacentHTML('beforeend', '<div style="margin:5px 0;"><input style="border:1px solid #ccc;width:33%;padding:5px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);" type="text" name="servicio" placeholder="Servicio"><input style="border:1px solid #ccc;width:34%;padding:5px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);" type="text" name="servi_des" placeholder="Descripción"><input style="border:1px solid #ccc;width:33%;padding:5px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);" type="text" name="horas" placeholder="Horas"></div>');
+    let this_ = this;
+    this.presu.nativeElement.insertAdjacentHTML('beforeend', '<div style="margin:5px 0;position:relative;">\
+      <input style="border:1px solid #ccc;width:33%;padding:5px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);" type="text" name="servicio" placeholder="Servicio"><input style="border:1px solid #ccc;width:44%;padding:5px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);" type="text" name="servi_des" placeholder="Descripción"><input style="border:1px solid #ccc;width:23%;padding:5px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);" type="text" name="horas" placeholder="Horas">\
+      <button class="glyphicon glyphicon-trash" style="position:absolute;top:0;right:0;display:block;width:32px;height:32px;float:right;border:1px solid #ccc;"></button>\
+    </div>');
+    setTimeout(function(){
+      for (let i = 0; i < this_.presu.nativeElement.children.length; i++) {
+        this_.presu.nativeElement.children[i].querySelector('button').addEventListener("mouseup", function(e){
+          this_.removeField(e);
+        })
+      }
+    }, 10);
+  }
+
+  public removeField(e): void{
+    e.srcElement.parentNode.parentNode.removeChild(e.srcElement.parentNode);
   }
 
   public addCStage(): void{
