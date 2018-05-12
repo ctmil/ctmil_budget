@@ -34,7 +34,7 @@ export class AppComponent {
     let this_ = this;
     this.presu.nativeElement.insertAdjacentHTML('beforeend', '<div style="margin:5px 0;position:relative;">\
       <input style="border:1px solid #ccc;width:33%;padding:5px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);" type="text" name="servicio" placeholder="Servicio"><input style="border:1px solid #ccc;width:44%;padding:5px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);" type="text" name="servi_des" placeholder="Descripción"><input style="border:1px solid #ccc;width:23%;padding:5px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);" type="text" name="horas" placeholder="Horas">\
-      <button class="glyphicon glyphicon-trash" style="position:absolute;top:0;right:0;display:block;width:32px;height:32px;float:right;border:1px solid #ccc;"></button>\
+      <button class="btn-danger glyphicon glyphicon-trash" style="position:absolute;top:0;right:0;display:block;width:32px;height:32px;float:right;border:1px solid #ccc;"></button>\
     </div>');
     setTimeout(function(){
       for (let i = 0; i < this_.presu.nativeElement.children.length; i++) {
