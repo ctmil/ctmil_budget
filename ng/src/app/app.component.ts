@@ -46,7 +46,9 @@ export class AppComponent {
   }
 
   public removeField(e): void{
-    e.srcElement.parentNode.parentNode.removeChild(e.srcElement.parentNode);
+    if(e.srcElement.parentNode.parentNode){  //Previene Error por iteración
+        e.srcElement.parentNode.parentNode.removeChild(e.srcElement.parentNode);
+    }
   }
 
   public addCStage(): void{
@@ -216,9 +218,9 @@ export class AppComponent {
        <p style="font-family:helvetica;font-size:11px;">No Aplica.</p><br/>'+poscronograma,
        10, 15, {'width': 180});
       doc.setDrawColor(180, 180, 180);
-      doc.line(10, 39, 70, 39);
+      doc.line(10, 42, 70, 42);
       doc.setDrawColor(10, 10, 10);
-      doc.line(10, 51, 70, 51);
+      doc.line(10, 54, 70, 54);
     }
 
     /*FOOTER*/
