@@ -70,14 +70,14 @@ export class AppComponent {
     let cliente:string = this.form.nativeElement[1].value;
     let propuesta:string = this.form.nativeElement[2].value.replace(/\n/g, " ");
     let relevamiento:string = this.form.nativeElement[3].value.replace(/\n/g, " ");
-    let requerimientos:string = this.form.nativeElement[4].value.replace(/\n/g, " ");
+    let requerimientos:string = this.form.nativeElement[4].value.replace(/Etapa /g, "<p style='font-family:helvetica;font-size:11px;color:#111;'>Etapa ").replace(/\n/g, "</p>") + "</p>";
     let importe:number = +(Number(this.importe.nativeElement.children[0].value).toFixed(2));
     let iva:number = +((importe*0.21).toFixed(2));
     let importeConIVA:number = +((importe+iva).toFixed(2));
     let moneda:string;
-    if(this.importe.nativeElement.children[1].checked){
+    if (this.importe.nativeElement.children[1].checked){
       moneda = '$';
-    }else if(this.importe.nativeElement.children[3].checked){
+    }else if (this.importe.nativeElement.children[3].checked){
       moneda = 'US$';
     }else{
       moneda = '$';
