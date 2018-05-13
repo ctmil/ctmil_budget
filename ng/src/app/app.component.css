@@ -41,3 +41,11 @@ label{
   display:block;
   margin:0 auto;
 }
+.float-right{
+  float:right;
+  margin-left:10px;
+}
+.jumbotron{
+  padding-bottom: 60px;
+  user-select: none;
+}

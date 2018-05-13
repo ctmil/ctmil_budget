@@ -12,6 +12,7 @@ export class AppComponent {
   public title:string = 'Cooperativa de Trabajo Moldeo Interactive Ltda.';
   /////////////////////////////////////////
   @ViewChild("formulario") form: ElementRef;
+  @ViewChild("portfolio") port: ElementRef;
   @ViewChild("presupuesto") presu: ElementRef;
   @ViewChild("tiempo") tiempo: ElementRef;
   @ViewChild("etapas") etapas: ElementRef;
@@ -62,6 +63,60 @@ export class AppComponent {
 
   public resetCStage(): void{
     this.etapas.nativeElement.innerHTML = "";
+  }
+
+  public generateCSV(): void{
+    let proyecto:string = this.form.nativeElement[0].value;
+    let cliente:string = this.form.nativeElement[1].value;
+    let propuesta:string = this.form.nativeElement[2].value.replace(/\n/g, " ");
+    let relevamiento:string = this.form.nativeElement[3].value.replace(/\n/g, " ");
+    let requerimientos:string = this.form.nativeElement[4].value.replace(/\n/g, " ");
+    let importe:number = +(Number(this.importe.nativeElement.children[0].value).toFixed(2));
+    let moneda:string;
+    if (this.importe.nativeElement.children[1].checked){
+      moneda = '$';
+    }else if (this.importe.nativeElement.children[3].checked){
+      moneda = 'US$';
+    }else{
+      moneda = '$';
+    }
+    let servicio = ["servicio"];
+    for (let i = 0; i < this.presu.nativeElement.children.length; i++) {
+        servicio[i+1] = this.presu.nativeElement.children[i].children[0].value;
+    }
+    let descripcion = ["descripcion"];
+    for (let i = 0; i < this.presu.nativeElement.children.length; i++) {
+        descripcion[i+1] = this.presu.nativeElement.children[i].children[1].value;
+    }
+    let horas = ["horas"];
+    for (let i = 0; i < this.presu.nativeElement.children.length; i++) {
+        horas[i+1] = this.presu.nativeElement.children[i].children[2].value;
+    }
+
+    /*GENERAR ARRAY tipo CSV*/
+    const rows = [
+      ["proyecto", proyecto],
+      ["cliente", cliente],
+      ["propuesta", propuesta],
+      ["relevamiento", relevamiento],
+      ["requerimientos", requerimientos],
+      servicio, descripcion, horas,
+      ["cronograma-no-aplica", this.ifCrono.nativeElement.checked],
+      ["importe", importe],
+      ["moneda", moneda]
+    ];
+
+    let csvContent = "data:text/csv;charset=utf-8,";
+    rows.forEach(function(rowArray){
+       let row = rowArray.join(";");
+       csvContent += row + "\r\n";
+    });
+
+    let encodedUri = encodeURI(csvContent);
+    let link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", proyecto.toLowerCase().replace(/ /g, "-") + "_" + cliente.toLowerCase().replace(/ /g, "-")+".csv");
+    link.click(); //Guardar CSV
   }
 
   public generateBudget(): void{
