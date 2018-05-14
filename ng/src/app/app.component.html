@@ -28,11 +28,41 @@
 
   <h4>Portfolio:</h4>
   <div>
-    <input #ifPort class="check20" type="checkbox" checked (change)="0"><label for="">No Aplica</label>
-    <div #portfolio *ngIf="!ifPort.checked">
-      <input class="check20" type="checkbox" name="odoo_mercadolibre"> Mercadolibre - Odoo
-      <input class="check20" type="checkbox" name="odoo_felect"> Factura Electrónica - Odoo
-      <input class="check20" type="checkbox" name="odoo_ecommerce"> eCommerce - Odoo
+    <input #ifPort class="check20" type="checkbox" checked (change)="0"><label>No Aplica</label>
+    <div #portfolio *ngIf="!ifPort.checked" class="portfolio">
+      <h5>Servicios</h5>
+      <div>
+        <input type="checkbox" name="odoo_mercadolibre"><label>Odoo - Mercadolibre</label>
+        <input type="checkbox" name="odoo_felect"><label>Odoo - Factura Electrónica</label>
+        <input type="checkbox" name="odoo_ecommerce"><label>Odoo - eCommerce</label>
+        <input type="checkbox" name="eulac_mapas"><label>Mapas Industriales - Eulac</label>
+      </div>
+      <h5>Instituciones Culturales</h5>
+      <div>
+        <input type="checkbox" name="ra_miruar"><label>Realidad Aumentada - Miru(AR)</label>
+        <input type="checkbox" name="museoint"><label>Museografía Interactiva</label>
+        <input type="checkbox" name="rbicentenario"><label>Rostros del Bicentenario</label>
+      </div>
+      <h5>Diseño Interactivo</h5>
+      <div>
+        <input type="checkbox" name="in_teravision"><label>Instalación Teatral - Teravision</label>
+        <input type="checkbox" name="av_moyamoya"><label>Proyecto Audiovisual - Moya Moya</label>
+        <input type="checkbox" name="sensor_captor"><label>Sensor Interactiva - Captor</label>
+        <input type="checkbox" name="in_teravision"><label>Instalación Tearal - Teravision</label>
+        <input type="checkbox" name="dibujoenvivo"><label>Dibujo en Vivo - Cuentos Animados</label>
+        <input type="checkbox" name="dibujoenvivo"><label>Ambientación Digital - Crave</label>
+      </div>
+      <h5>Publicidad Interactiva</h5>
+      <div>
+        <input type="checkbox" name="vidriera_puma"><label>Vidriera Interactiva - Puma</label>
+        <input type="checkbox" name="vjuego_mataplagas"><label>Videojuego Touchless - Mataplagas</label>
+        <input type="checkbox" name="chaman"><label>Fiesta Interactiva - Chaman</label>
+        <input type="checkbox" name="vclip_ojas"><label>Videoclip - Ojas</label>
+        <input type="checkbox" name="twister"><label>Impresora de Agua - Twister</label>
+        <input type="checkbox" name="vjuego_tecnopolis"><label>Videojuego Touchless - Tecnopolis</label>
+        <input type="checkbox" name="ra_telmex"><label>Realidad Aumentada - Copa TelMex</label>
+        <input type="checkbox" name="ra_manoescrita"><label>Realidad Aumentada - Mano Escrita</label>
+      </div>
     </div>
   </div>
 

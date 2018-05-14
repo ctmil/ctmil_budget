@@ -4,6 +4,9 @@ h1{
 h2, h3, h4, h5, h6{
   margin-top:30px;
 }
+h5{
+  border-bottom: 1px solid #ddd;
+}
 input{
   border-radius:0;
 }
@@ -48,4 +51,14 @@ label{
 .jumbotron{
   padding-bottom: 60px;
   user-select: none;
+}
+.portfolio label{
+  font-weight: normal;
+}
+.portfolio input{
+  width:15px;
+  height:15px;
+}
+.portfolio input[type="checkbox"]:checked + label {
+  font-weight: bold;
 }
