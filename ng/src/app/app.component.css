@@ -59,6 +59,16 @@ label{
   width:15px;
   height:15px;
 }
-.portfolio input[type="checkbox"]:checked + label {
+.portfolio input[type="checkbox"]:checked + label, .portfolio input[type="checkbox"]:hover + label {
   font-weight: bold;
+}
+.portfolio label{
+  min-width:150px;
+  max-width:200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 10px 0 0;
+  white-space: nowrap;
+  display:inline-block;
+  height:22px;
 }
