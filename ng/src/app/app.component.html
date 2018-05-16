@@ -11,17 +11,25 @@
       </button>
   </div>
 
-  <form #formulario class="" method="post">
+  <form #formulario class="formulario" method="post">
     <h2>Proyecto:</h2>
     <input class="form-control" type="text" name="proyecto" placeholder="Título del Proyecto" required>
     <h3>Cliente:</h3>
     <input class="form-control" type="text" name="cliente" placeholder="Nombre del Cliente" required>
     <h4>Propuesta:</h4>
-    <textarea class="form-control" name="propuesta" rows="4" cols="80">Proyecto activo durante...</textarea>
-    <h4>Relevamiento:</h4>
-    <textarea class="form-control" name="propuesta" rows="4" cols="80">Después de las reuniones realizadas, el proyecto necesita...</textarea>
-    <h4>Requerimientos:</h4>
-    <textarea class="form-control" name="requerimientos" rows="4" cols="80">Etapa 1: ...</textarea>
+    <textarea #propuesta class="form-control" name="propuesta" rows="4" cols="80"></textarea>
+    <h4 [ngClass]="{'inactive':!checkRelevamiento.checked}">
+      <input #checkRelevamiento type="checkbox" checked="true" (change)="0">Relevamiento:
+    </h4>
+    <textarea #relevamiento class="form-control" [ngClass]="{'inactive':!checkRelevamiento.checked}" name="relevamiento"></textarea>
+    <h4 [ngClass]="{'inactive':!checkEtapas.checked}">
+      <input #checkEtapas type="checkbox" checked="true" (change)="0">Etapas del Proyecto:
+    </h4>
+    <textarea #etapasp class="form-control" [ngClass]="{'inactive':!checkEtapas.checked}" name="etapas"></textarea>
+    <h4 [ngClass]="{'inactive':!checkRequerimientos.checked}">
+      <input #checkRequerimientos type="checkbox" checked="true" (change)="0">Requerimientos:
+    </h4>
+    <textarea #requerimientos class="form-control" [ngClass]="{'inactive':!checkRequerimientos.checked}" name="requerimientos"></textarea>
   </form>
 
   <hr>

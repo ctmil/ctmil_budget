@@ -52,6 +52,13 @@ label{
   padding-bottom: 60px;
   user-select: none;
 }
+.inactive{
+  color:#ccc;
+}
+.formulario textarea{
+  height:100px;
+  resize: vertical;
+}
 .portfolio label{
   font-weight: normal;
 }

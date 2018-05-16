@@ -12,6 +12,14 @@ export class AppComponent {
   public title:string = 'Cooperativa de Trabajo Moldeo Interactive Ltda.';
   /////////////////////////////////////////
   @ViewChild("formulario") form: ElementRef;
+  @ViewChild("propuesta") propuesta: ElementRef;
+  @ViewChild("relevamiento") relevamiento: ElementRef;
+  @ViewChild("etapasp") etapasp: ElementRef;
+  @ViewChild("requerimientos") requerimientos: ElementRef;
+  @ViewChild("checkRelevamiento") checkRelevamiento: ElementRef;
+  @ViewChild("checkEtapas") checkEtapas: ElementRef;
+  @ViewChild("checkRequerimientos") checkRequerimientos: ElementRef;
+
   @ViewChild("portfolio") port: ElementRef;
   @ViewChild("presupuesto") presu: ElementRef;
   @ViewChild("tiempo") tiempo: ElementRef;
@@ -65,12 +73,17 @@ export class AppComponent {
     this.etapas.nativeElement.innerHTML = "";
   }
 
+  /*GENERAR CSV*/
   public generateCSV(): void{
     let proyecto:string = this.form.nativeElement[0].value;
     let cliente:string = this.form.nativeElement[1].value;
-    let propuesta:string = this.form.nativeElement[2].value.replace(/\n/g, " ");
-    let relevamiento:string = this.form.nativeElement[3].value.replace(/\n/g, " ");
-    let requerimientos:string = this.form.nativeElement[4].value.replace(/\n/g, " ");
+    let propuesta:string = this.propuesta.nativeElement.value.replace(/\n/g, " ");
+    let relevamiento:string = this.relevamiento.nativeElement.value.replace(/\n/g, " ");
+    let etapas:string = this.etapasp.nativeElement.value.replace(/\n/g, " ");
+    let requerimientos:string = this.requerimientos.nativeElement.value.replace(/\n/g, " ");
+    if(!this.checkRelevamiento.nativeElement.checked){relevamiento = "false";}
+    if(!this.checkEtapas.nativeElement.checked){etapas = "false";}
+    if(!this.checkRequerimientos.nativeElement.checked){requerimientos = "false";}
     let importe:number = +(Number(this.importe.nativeElement.children[0].value).toFixed(2));
     let moneda:string;
     if (this.importe.nativeElement.children[1].checked){
@@ -99,6 +112,7 @@ export class AppComponent {
       ["cliente", cliente],
       ["propuesta", propuesta],
       ["relevamiento", relevamiento],
+      ["etapas", etapas],
       ["requerimientos", requerimientos],
       servicio, descripcion, horas,
       ["cronograma-no-aplica", this.ifCrono.nativeElement.checked],
@@ -119,13 +133,32 @@ export class AppComponent {
     link.click(); //Guardar CSV
   }
 
+  /*GENERAR PRESUPUESTO*/
   public generateBudget(): void{
+    console.log(this.checkRelevamiento.nativeElement.checked);
     let doc = new jsPDF({orientation: "p", lineHeight: 1.5});
     let proyecto:string = this.form.nativeElement[0].value;
     let cliente:string = this.form.nativeElement[1].value;
-    let propuesta:string = this.form.nativeElement[2].value.replace(/\n/g, " ");
-    let relevamiento:string = this.form.nativeElement[3].value.replace(/\n/g, " ");
-    let requerimientos:string = this.form.nativeElement[4].value.replace(/Etapa /g, "<p style='font-family:helvetica;font-size:11px;color:#111;'>Etapa ").replace(/\n/g, "</p>") + "</p>";
+    let propuesta:string = this.propuesta.nativeElement.value.replace(/\n/g, " ");
+    let relevamiento:string = this.relevamiento.nativeElement.value.replace(/\n/g, " ");
+    let etapas:string = this.etapasp.nativeElement.value.replace(/Etapa /g, "<p style='font-family:helvetica;font-size:11px;color:#111;'>Etapa ").replace(/\n/g, "</p>") + "</p>";
+    let requerimientos:string = this.requerimientos.nativeElement.value;
+
+    let propuestaFinal:string = '<h3 style="font-family:helvetica;font-size:14px;color:#111;">Propuesta</h3>\
+     <p style="font-family:helvetica;font-size:11px;color:#111;">'+propuesta+'</p>';
+    if(this.checkRelevamiento.nativeElement.checked){
+      propuestaFinal += '<h3 style="font-family:helvetica;font-size:14px;color:#111;">Relevamiento</h3>\
+       <p style="font-family:helvetica;font-size:11px;color:#111;">'+relevamiento+'</p>';
+    }
+    if(this.checkEtapas.nativeElement.checked){
+      propuestaFinal += '<h3 style="font-family:helvetica;font-size:14px;color:#111;">Etapas del Proyecto</h3>\
+       <p style="font-family:helvetica;font-size:11px;color:#111;">'+etapas+'</p>';
+    }
+    if(this.checkRequerimientos.nativeElement.checked){
+      propuestaFinal += '<h3 style="font-family:helvetica;font-size:14px;color:#111;">Requerimientos</h3>\
+       <p style="font-family:helvetica;font-size:11px;color:#111;">'+requerimientos+'</p>';
+    }
+
     let importe:number = +(Number(this.importe.nativeElement.children[0].value).toFixed(2));
     let iva:number = +((importe*0.21).toFixed(2));
     let importeConIVA:number = +((importe+iva).toFixed(2));
@@ -179,20 +212,11 @@ export class AppComponent {
 
     10,55,{'width': 180});
 
-    /*BODY 02 - PROPUESTA, RELEVAMIENTO, REQUERIMIENTOS*/
+    /*BODY 02 - PROPUESTA*/
     doc.setPage(2);
     doc.setFont("helvetica");
     doc.setTextColor(20, 20, 20);
-    doc.fromHTML(
-
-    '<h3 style="font-family:helvetica;font-size:14px;color:#111;">Propuesta</h3>\
-     <p style="font-family:helvetica;font-size:11px;color:#111;">'+propuesta+'</p>\
-     <h3 style="font-family:helvetica;font-size:14px;color:#111;">Relevamiento</h3>\
-     <p style="font-family:helvetica;font-size:11px;color:#111;">'+relevamiento+'</p>\
-     <h3 style="font-family:helvetica;font-size:14px;color:#111;">Requerimientos</h3>\
-     <p style="font-family:helvetica;font-size:11px;color:#111;">'+requerimientos+'</p>\ ',
-
-    10, 15, {'width': 180});
+    doc.fromHTML(propuestaFinal, 10, 15, {'width': 180});
 
     /*BODY 03 - PRESUPUESTO*/
     doc.setPage(3);
