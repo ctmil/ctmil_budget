@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Globals } from './globals';
+import { FunService } from './service/fun.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -33,7 +34,7 @@ export class AppComponent {
   public contrato:any = Globals.CONTRATO;
   public objetivos:string = Globals.OBJETIVOS;
 
-  constructor(){}
+  constructor(public fun: FunService){}
 
   ngOnInit(){
     this.createNewField();
@@ -129,7 +130,7 @@ export class AppComponent {
     let encodedUri = encodeURI(csvContent);
     let link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", proyecto.toLowerCase().replace(/ /g, "-") + "_" + cliente.toLowerCase().replace(/ /g, "-")+".csv");
+    link.setAttribute("download", this.fun.createName(proyecto, cliente)+".csv");
     link.click(); //Guardar CSV
   }
 
@@ -172,7 +173,7 @@ export class AppComponent {
     }
     let horas:number = 0;
 
-    let name:string = proyecto.toLowerCase().replace(/ /g, "-") + "_" + cliente.toLowerCase().replace(/ /g, "-");
+    let name:string = this.fun.createName(proyecto, cliente);
 
     doc.addPage();
     doc.addPage();

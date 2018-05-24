@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-
+import { FunService } from './service/fun.service';
 
 @NgModule({
   declarations: [
@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [FunService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
