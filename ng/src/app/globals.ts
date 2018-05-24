@@ -1,5 +1,8 @@
 export class Globals{
 
+  public static COOPNAME: string = "Cooperativa de Trabajo Moldeo Interactive Ltda.";
+  public static WEB: string = "www.moldeointeractive.com.ar";
+  public static MAIL: string = "info@moldeointeractive.com.ar";
   public static PRESENTACION: string = "Moldeo Interactive Coop. Trab. Limit. e/F es una empresa de desarrollo de software interactivo con comprobada experiencia en aplicaciones de generación de documentación y reportes.";
   public static CONTRATO: any = [
     "Al estar reservando horas de trabajo, el contrato se basará en un modelo de locación de servicio.",

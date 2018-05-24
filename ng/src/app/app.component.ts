@@ -10,7 +10,7 @@ import 'jspdf-autotable';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  public title:string = 'Cooperativa de Trabajo Moldeo Interactive Ltda.';
+  public title:string = Globals.COOPNAME;
   /////////////////////////////////////////
   @ViewChild("formulario") form: ElementRef;
   @ViewChild("propuesta") propuesta: ElementRef;
@@ -136,7 +136,6 @@ export class AppComponent {
 
   /*GENERAR PRESUPUESTO*/
   public generateBudget(): void{
-    console.log(this.checkRelevamiento.nativeElement.checked);
     let doc = new jsPDF({orientation: "p", lineHeight: 1.5});
     let proyecto:string = this.form.nativeElement[0].value;
     let cliente:string = this.form.nativeElement[1].value;
@@ -186,10 +185,10 @@ export class AppComponent {
     doc.setFontSize(9);
     doc.setFillColor(10, 10, 10);
     doc.rect(10, 45, 190, 1, 'F');
-    doc.text('Coop. de Trabajo Moldeo Interactive Ltda.', 100, 25);
+    doc.text(Globals.COOPNAME, 100, 25);
     doc.setTextColor(0, 0, 240);
-    doc.textWithLink('www.moldeointeractive.com.ar', 100, 30, {url: 'http://www.moldeointeractive.com.ar'});
-    doc.textWithLink('info@moldeointeractive.com.ar', 100, 35, {url: 'mailto:info@moldeointeractive.com.ar'});
+    doc.textWithLink(Globals.WEB, 100, 30, {url: 'http://'+Globals.WEB});
+    doc.textWithLink(Globals.MAIL, 100, 35, {url: 'mailto:'+Globals.MAIL});
     doc.addImage(this.imgData, 'PNG', 10, 15);
 
     /*BODY 01 - DATOS*/
