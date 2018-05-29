@@ -27,6 +27,7 @@ export class AppComponent {
   @ViewChild("etapas") etapas: ElementRef;
   @ViewChild("ifCrono") ifCrono: ElementRef;
   @ViewChild("importe") importe: ElementRef;
+  @ViewChild("equipo") equipo: ElementRef;
 
   public imgData:string = Globals.IMGDATA;  //Logo de Moldeo Interactive
 
@@ -118,7 +119,8 @@ export class AppComponent {
       servicio, descripcion, horas,
       ["cronograma-no-aplica", this.ifCrono.nativeElement.checked],
       ["importe", importe],
-      ["moneda", moneda]
+      ["moneda", moneda],
+      ["equipo", this.equipo.nativeElement.checked]
     ];
 
     let csvContent = "data:text/csv;charset=utf-8,";
@@ -241,12 +243,23 @@ export class AppComponent {
     /*BODY 04 - CRONOGRAMA*/
     doc.setPage(4);
     doc.setFont("helvetica");
-    let poscronograma:string = '\
-    <p style="font-family:helvetica;font-size:10px;">Horas de Trabajo Presupuestadas: '+horas+' Horas</p>\
-    <div style="font-family:helvetica;font-size:11px;">Total sin IVA: '+moneda+' '+importe+'</div>\
-    <div style="font-family:helvetica;font-size:11px;">IVA 21%: '+moneda+' '+iva+'<div>\
-    <p style="font-family:helvetica;font-size:16px;font-weight:bold;">Total: '+moneda+' '+importeConIVA+'</p>\
-    <p style="font-family:helvetica;font-size:11px;">Este presupuesto tiene validez por 15 días para ser aprobado.</p>';
+    let poscronograma:string;
+    if(this.equipo.nativeElement.checked){
+      poscronograma = '\
+      <p style="font-family:helvetica;font-size:10px;">Horas de Trabajo Presupuestadas: '+horas+' Horas</p>\
+      <div style="font-family:helvetica;font-size:11px;">Total sin IVA: '+moneda+' '+importe+'</div>\
+      <div style="font-family:helvetica;font-size:11px;">IVA 21%: '+moneda+' '+iva+'<div>\
+      <p style="font-family:helvetica;font-size:16px;font-weight:bold;">Total: '+moneda+' '+importeConIVA+'</p>\
+      <p style="font-family:helvetica;font-size:11px;">El precio incluye la compra o el alquiler del equipo necesario.</p>\
+      <p style="font-family:helvetica;font-size:11px;">Este presupuesto tiene validez por 15 días para ser aprobado.</p>';
+    }else{
+      poscronograma = '\
+      <p style="font-family:helvetica;font-size:10px;">Horas de Trabajo Presupuestadas: '+horas+' Horas</p>\
+      <div style="font-family:helvetica;font-size:11px;">Total sin IVA: '+moneda+' '+importe+'</div>\
+      <div style="font-family:helvetica;font-size:11px;">IVA 21%: '+moneda+' '+iva+'<div>\
+      <p style="font-family:helvetica;font-size:16px;font-weight:bold;">Total: '+moneda+' '+importeConIVA+'</p>\
+      <p style="font-family:helvetica;font-size:11px;">Este presupuesto tiene validez por 15 días para ser aprobado.</p>';
+    }
 
     if(this.ifCrono.nativeElement.checked === false){
       doc.fromHTML(
