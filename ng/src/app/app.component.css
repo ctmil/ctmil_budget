@@ -16,6 +16,11 @@ textarea{
 label{
   padding:5px;
 }
+.alert {
+    padding: 10px !important;
+    margin-bottom: 0 !important;
+    margin-top: 60px;
+}
 .foottron{
   height:40px;
   margin:10px 0;
@@ -49,7 +54,7 @@ label{
   margin-left:10px;
 }
 .jumbotron{
-  padding-bottom: 60px;
+  padding-bottom: 40px;
   user-select: none;
 }
 .inactive{
@@ -58,6 +63,27 @@ label{
 .formulario textarea{
   height:100px;
   resize: vertical;
+}
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  float:right;
+  cursor:pointer;
+}
+.upload-btn-wrapper:hover{
+  cursor:pointer;
+}
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor:pointer;
+}
+.upload-btn-wrapper input[type=file]:hover {
+  cursor:pointer;
 }
 .portfolio label{
   font-weight: normal;

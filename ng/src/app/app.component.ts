@@ -3,6 +3,7 @@ import { Globals } from './globals';
 import { FunService } from './service/fun.service';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import * as Papa from 'papaparse';
 
 @Component({
   selector: 'app-root',
@@ -34,6 +35,10 @@ export class AppComponent {
   public presentacion:string = Globals.PRESENTACION;
   public contrato:any = Globals.CONTRATO;
   public objetivos:string = Globals.OBJETIVOS;
+
+  public newFile:boolean = false;
+  public goodFile:boolean = false;
+  public nameFile:string = "";
 
   constructor(public fun: FunService){}
 
@@ -110,6 +115,7 @@ export class AppComponent {
 
     /*GENERAR ARRAY tipo CSV*/
     const rows = [
+      ["ctmil", "true"],
       ["proyecto", proyecto],
       ["cliente", cliente],
       ["propuesta", propuesta],
@@ -120,20 +126,65 @@ export class AppComponent {
       ["cronograma-no-aplica", this.ifCrono.nativeElement.checked],
       ["importe", importe],
       ["moneda", moneda],
+      ["iva", this.importe.nativeElement.children[4].checked],
       ["equipo", this.equipo.nativeElement.checked]
     ];
 
-    let csvContent = "data:text/csv;charset=utf-8,";
-    rows.forEach(function(rowArray){
-       let row = rowArray.join(";");
-       csvContent += row + "\r\n";
-    });
-
-    let encodedUri = encodeURI(csvContent);
+    let csv = "data:text/csv;charset=utf-8," + Papa.unparse(rows, {delimiter: ";"});
+    let encodedUri = encodeURI(csv);
     let link = document.createElement("a");
     link.setAttribute("href", encodedUri);
     link.setAttribute("download", this.fun.createName(proyecto, cliente)+".csv");
     link.click(); //Guardar CSV
+  }
+
+  /*CARGAR CSV*/
+  public loadCSV(e){
+    let this_ = this;
+    this.nameFile = "Archivo Cargado: "+e.target.files[0].name;
+    Papa.parse(e.target.files[0], {
+      delimiter: ";",
+      error: function(){
+        this_.goodFile = false;
+        this_.nameFile = "No es un archivo CSV de CTMIL";
+      },
+      complete: function(results) {
+        this_.newFile = true;
+        this_.goodFile = true;
+        if(this_.fun.findIndex(results.data, "ctmil") != -1 && results.data[this_.fun.findIndex(results.data, "ctmil")][1] == "true"){
+          //Cargar Campos
+          this_.form.nativeElement[0].value = results.data[this_.fun.findIndex(results.data, "proyecto")][1];
+          this_.form.nativeElement[1].value = results.data[this_.fun.findIndex(results.data, "cliente")][1];
+          this_.propuesta.nativeElement.value = results.data[this_.fun.findIndex(results.data, "propuesta")][1];
+          if(results.data[this_.fun.findIndex(results.data, "relevamiento")][1] == "false"){
+            this_.checkRelevamiento.nativeElement.checked = false;
+          }else{
+            this_.relevamiento.nativeElement.value = results.data[this_.fun.findIndex(results.data, "relevamiento")][1];
+          }
+          if(results.data[this_.fun.findIndex(results.data, "etapas")][1] == "false"){
+            this_.checkEtapas.nativeElement.checked = false;
+          }else{
+            this_.etapasp.nativeElement.value = results.data[this_.fun.findIndex(results.data, "etapas")][1];
+          }
+          if(results.data[this_.fun.findIndex(results.data, "requerimientos")][1] == "false"){
+            this_.checkRequerimientos.nativeElement.checked = false;
+          }else{
+            this_.requerimientos.nativeElement.value = results.data[this_.fun.findIndex(results.data, "requerimientos")][1];
+          }
+          if(results.data[this_.fun.findIndex(results.data, "moneda")][1] == "$"){
+            this_.importe.nativeElement.children[1].checked == true;
+          }else if(results.data[this_.fun.findIndex(results.data, "moneda")][1] == "US$"){
+            this_.importe.nativeElement.children[3].checked == true;
+          }
+          this_.importe.nativeElement.children[0].value = results.data[this_.fun.findIndex(results.data, "importe")][1];
+          this_.importe.nativeElement.children[5].checked = (results.data[this_.fun.findIndex(results.data, "iva")][1] === "true");
+          this_.equipo.nativeElement.checked = (results.data[this_.fun.findIndex(results.data, "equipo")][1] === "true");
+        }else{
+          this_.goodFile = false;
+          this_.nameFile = "No es un archivo CSV de CTMIL";
+        }
+      }
+    });
   }
 
   /*GENERAR PRESUPUESTO*/
@@ -162,7 +213,15 @@ export class AppComponent {
     }
 
     let importe:number = +(Number(this.importe.nativeElement.children[0].value).toFixed(2));
-    let iva:number = +((importe*0.21).toFixed(2));
+    let iva:number;
+    let ivaValue:number;
+    if(this.importe.nativeElement.children[5].checked){
+      ivaValue = 21;
+      iva = +((importe*(ivaValue/100)).toFixed(2));
+    }else{
+      ivaValue = 0;
+      iva = +((importe*0).toFixed(2));
+    }
     let importeConIVA:number = +((importe+iva).toFixed(2));
     let moneda:string;
     if (this.importe.nativeElement.children[1].checked){
@@ -248,7 +307,7 @@ export class AppComponent {
       poscronograma = '\
       <p style="font-family:helvetica;font-size:10px;">Horas de Trabajo Presupuestadas: '+horas+' Horas</p>\
       <div style="font-family:helvetica;font-size:11px;">Total sin IVA: '+moneda+' '+importe+'</div>\
-      <div style="font-family:helvetica;font-size:11px;">IVA 21%: '+moneda+' '+iva+'<div>\
+      <div style="font-family:helvetica;font-size:11px;">IVA '+ivaValue+'%: '+moneda+' '+iva+'<div>\
       <p style="font-family:helvetica;font-size:16px;font-weight:bold;">Total: '+moneda+' '+importeConIVA+'</p>\
       <p style="font-family:helvetica;font-size:11px;">El precio incluye la compra o el alquiler del equipo necesario.</p>\
       <p style="font-family:helvetica;font-size:11px;">Este presupuesto tiene validez por 15 días para ser aprobado.</p>';
@@ -256,7 +315,7 @@ export class AppComponent {
       poscronograma = '\
       <p style="font-family:helvetica;font-size:10px;">Horas de Trabajo Presupuestadas: '+horas+' Horas</p>\
       <div style="font-family:helvetica;font-size:11px;">Total sin IVA: '+moneda+' '+importe+'</div>\
-      <div style="font-family:helvetica;font-size:11px;">IVA 21%: '+moneda+' '+iva+'<div>\
+      <div style="font-family:helvetica;font-size:11px;">IVA '+ivaValue+'%: '+moneda+' '+iva+'<div>\
       <p style="font-family:helvetica;font-size:16px;font-weight:bold;">Total: '+moneda+' '+importeConIVA+'</p>\
       <p style="font-family:helvetica;font-size:11px;">Este presupuesto tiene validez por 15 días para ser aprobado.</p>';
     }

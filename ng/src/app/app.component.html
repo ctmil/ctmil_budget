@@ -3,12 +3,18 @@
     <a href="#" class="pull-left" style="margin:20px;"><img src="./assets/moldeo_interactive.png"></a>
       <h1>{{title}}</h1>
       <p>Budget / Presupuestador</p>
-      <button class="btn btn-primary btn-md center float-right" type="button" name="lcsv" title="Importar CSV">
+      <button class="btn btn-primary btn-md center float-right" type="button" name="scsv" title="Guardar CSV">
         <span class="glyphicon glyphicon-open" aria-hidden="true"></span> CSV
       </button>
-      <button class="btn btn-primary btn-md center float-right" type="button" name="scsv" (click)="generateCSV()" title="Exportar CSV">
-        <span class="glyphicon glyphicon-save" aria-hidden="true"></span> CSV
-      </button>
+      <div class="upload-btn-wrapper">
+        <button class="btn btn-primary btn-md center float-right" type="button" name="lcsv" (click)="generateCSV()" title="Cargar CSV">
+          <span class="glyphicon glyphicon-save" aria-hidden="true"></span> CSV
+        </button>
+        <input type="file" name="LoadCSV" (change)="loadCSV($event)">
+      </div>
+      <div class="alert" [ngClass]="goodFile ? 'alert-success' : 'alert-danger'" *ngIf="newFile">
+        {{nameFile}}
+      </div>
   </div>
 
   <form #formulario class="formulario" method="post">
